@@ -4,25 +4,28 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import ToDoItem from "./todo-item";
 
-class TodoList extends React.Component {
-
-  componentDidMount() {
-    log(this.props.items);
+class ToDoList extends React.Component {
+  constructor() {
+    super();
   }
 
   render() {
     return (
       <div className="ui cards">
-        {this.props.items.map((item) => {
-          return <ToDoItem todo=item/>
+        {this.props.items.map(item => {
+          return <ToDoItem
+            description={item.taskMessage}
+            key={item.taskID}
+            complete={item.taskComplete}            
+          />;
         })}
       </div>
     );
   }
 }
 
-TodoList.propTypes = {
+ToDoList.propTypes = {
   items: PropTypes.array.isRequired
 };
 
-export default TodoList;
+export default ToDoList;

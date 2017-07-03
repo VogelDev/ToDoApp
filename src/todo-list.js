@@ -10,13 +10,19 @@ class ToDoList extends React.Component {
   }
 
   render() {
+
+    this.props.items.sort(function(a,b){
+      return (a.taskComplete === b.taskComplete) ? 0 : b ? 1 : -1;
+    }).reverse();
+
     return (
       <div className="ui cards">
         {this.props.items.map(item => {
           return <ToDoItem
             description={item.taskMessage}
             key={item.taskID}
-            complete={item.taskComplete}            
+            complete={item.taskComplete}
+            date={item.taskDate}
           />;
         })}
       </div>

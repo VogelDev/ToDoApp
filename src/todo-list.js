@@ -19,10 +19,11 @@ class ToDoList extends React.Component {
       <div className="ui cards">
         {this.props.items.map(item => {
           return <ToDoItem
-            description={item.taskMessage}
-            key={item.taskID}
-            complete={item.taskComplete}
-            date={item.taskDate}
+            description={item.TASK}
+            key={item.TASK_ID}
+            complete={item.COMPLETED}
+            date={item.CREATED}
+            due={item.DUE}
           />;
         })}
       </div>

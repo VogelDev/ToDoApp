@@ -37,37 +37,43 @@ class ToDoItem extends React.Component {
     return date;
   }
 
-  daysPassed(date){
+  daysTilDue(date){
     // subtract days, divide by:
     // 24 hours in a day
     // 60 minutes in an hour
     // 60 seconds in a minute
     // 1000 milliseconds in a second
-    return Math.floor(((new Date()) - new Date(date)) / (24*60*60*1000));
+    return Math.floor(((new Date(date)) - new Date()) / (24*60*60*1000));
   }
 
   render() {
 
     var date = this.friendlyDate(this.props.date);
-    var dateDiff = this.daysPassed(this.props.date);
+    var dueDate = this.friendlyDate(this.props.due);
+    var dateDiff = this.daysTilDue(this.props.due);
 
-    var colors = ["green", "olive", "yellow", "orange", "red"];
+    var colors = ["red","orange","yellow","olive","green"];
 
     if(this.state.complete){
-      dateDiff = 0;
+      dateDiff = colors.length - 1;
     }else{
-      dateDiff = dateDiff / 10 * (colors.length - 1) > colors.length - 1 ? 4: Math.floor(dateDiff / 10 * 4)
+      dateDiff = 5 - dateDiff >= 0 ? dateDiff : 0;
     }
 
     var dateColor = colors[dateDiff];
     return (
         <div className="card">
-        <div className={"ui top right attached "+dateColor+" label"}>
-          {date}
+        <div className={"ui top attached"}>
+          <div className="ui left-label label">
+            {date}
+          </div>
+          <div className={"ui "+dateColor+" right-label label"}>
+            {dueDate}
+          </div>
         </div>
           <div className="content">
             <div className="description">
-              <h3 className="center">{this.props.description}</h3>
+              <div className="center task-message">{this.props.description}</div>
             </div>
           </div>
           <div className={"ui toggle checkbox bottom attached button "} onClick={this.toggleComplete}>

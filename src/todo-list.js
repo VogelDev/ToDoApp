@@ -16,17 +16,26 @@ class ToDoList extends React.Component {
     }).reverse();
 
     return (
+      <section className="ui segment basic">
+      <div className="ui top attached">
+        <div className="ui right label">
+        {this.props.name}
+        </div>
+      </div>
+      <div className="ui segment secondary basic todo-list">
       <div className="ui cards">
         {this.props.items.map(item => {
           return <ToDoItem
             description={item.TASK}
-            key={item.TASK_ID}
+            key={Math.random()}
             complete={item.COMPLETED}
             date={item.CREATED}
             due={item.DUE}
           />;
         })}
       </div>
+      </div>
+      </section>
     );
   }
 }

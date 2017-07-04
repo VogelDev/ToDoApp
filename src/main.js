@@ -3,8 +3,7 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 import style, {sourceMap} from "./styles.less";
-import ToDoList from "./todo-list";
-import ToDoItem from "./todo-item";
+import ToDoCategories from "./todo-categories";
 
 const app = document.getElementById("app");
 
@@ -19,12 +18,17 @@ $(function() {
   $.getJSON(BASE_URL)
   .done(function(data) {
     if (app){
-      ReactDOM.render(<ToDoList items={data} />, app);
+      ReactDOM.render(<ToDoCategories items={data} />, app);
     }
   })
   .fail(function(result, status, xhr) {
       console.error(result, status, xhr);
     }
   );
+
+  // $.getJSON("https://www.vogeldev.com/knockout/tasks/data/getTasks.php", function(data) {
+  //   console.log(data);
+  // });
+
 
 });

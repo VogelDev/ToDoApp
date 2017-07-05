@@ -5,36 +5,87 @@ import PropTypes from "prop-types";
 import ToDoItem from "./todo-item";
 
 class ToDoList extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
+    this.updateInputValue = this.updateInputValue.bind(this);
+    this.onKeyPress = this.onKeyPress.bind(this);
+
+    this.state = {
+      name: props.name
+    }
+  }
+
+  updateInputValue(evt, state) {
+
+    if(evt.target.value != this.state[state]){
+      // different, handle it
+
+      if(this.props.new){
+        //ajax call to create a category
+      }else{
+        // this.state[state] = evt.target.value;
+        var stateObject = function() {
+              var returnObj = {};
+              returnObj[state] = evt.target.value;
+                 return returnObj;
+            }.bind(event)();
+
+            this.setState( stateObject );
+        // this.setState({
+        //   name: evt.target.value
+        // });
+      }
+    }else{
+      // same, do nothing
+    }
+  }
+
+  onKeyPress(evt) {
+    if(evt.key === "Enter"){
+      $("input").blur();
+    }
   }
 
   render() {
 
-    this.props.items.sort(function(a,b){
-      return (a.taskComplete === b.taskComplete) ? 0 : b ? 1 : -1;
-    }).reverse();
+    // this.props.items.sort(function(a,b){
+    //   return (a.taskComplete === b.taskComplete) ? 0 : b ? 1 : -1;
+    // }).reverse();
+
+    var newTask = "";
+
+    if(!this.props.new){
+      newTask = <ToDoItem
+        description="New task"
+        new="true"
+      />;
+    }
 
     return (
       <section className="ui segment basic">
-      <div className="ui top attached">
-        <div className="ui right label">
-        {this.props.name}
+        <div className="ui top attached">
+          <input
+            className="ui header category"
+            onBlur={evt => this.updateInputValue(evt, "name")}
+            type="text"
+            defaultValue={this.props.name}
+            onKeyPress={evt => this.onKeyPress(evt)}
+            />
         </div>
-      </div>
-      <div className="ui segment secondary basic todo-list">
-      <div className="ui cards">
-        {this.props.items.map(item => {
-          return <ToDoItem
-            description={item.TASK}
-            key={Math.random()}
-            complete={item.COMPLETED}
-            date={item.CREATED}
-            due={item.DUE}
-          />;
-        })}
-      </div>
-      </div>
+        <div className="ui segment secondary basic todo-list">
+          <div className="ui three stackable cards">
+            {this.props.items.map(
+              item => {
+                return <ToDoItem
+                  description={item.TASK}
+                  key={Math.random()}
+                  complete={item.COMPLETED}
+                  date={item.CREATED}
+                  due={item.DUE} />;
+            })}
+              {newTask}
+          </div>
+        </div>
       </section>
     );
   }

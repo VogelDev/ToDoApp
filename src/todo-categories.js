@@ -17,11 +17,14 @@ class ToDoCategories extends React.Component {
           return <ToDoList
             name={item.name}
             key={Math.random()}
-            items={item.tasks}
-          />;
+            items={item.tasks}/>
         })}
+        <ToDoList
+          name="Add Category"
+          items={[]}
+          new="true"/>
       </section>
-    );
+    )
   }
 }
 

@@ -3,20 +3,34 @@ import * as React from "react";
 class ToDoItem extends React.Component {
   constructor(props) {
     super();
-    this.toggleComplete = this.toggleComplete.bind(this);
+    this.taskAction = this.taskAction.bind(this);
+    this.setDescription = this.setDescription.bind(this);
     this.state = {
-      complete: props.complete
+      complete: props.complete,
+      description: props.description
     }
 
   }
 
-  toggleComplete(){
+  taskAction(){
+    if(this.props.new){
+
+    }else{
+      this.setState({
+        complete: !this.state.complete
+      });
+    }
+  }
+
+  setDescription(d){
     this.setState({
-      complete: !this.state.complete
+      description: d
     });
   }
 
   friendlyDate(date){
+    if(!date)
+      return "";
     date = new Date(date);
 
     let mm = date.getMonth() + 1; // getMonth() is zero-based
@@ -48,22 +62,37 @@ class ToDoItem extends React.Component {
 
   render() {
 
-    var date = this.friendlyDate(this.props.date);
-    var dueDate = this.friendlyDate(this.props.due);
-    var dateDiff = this.daysTilDue(this.props.due);
+    var date = "";
+    var dueDate = "";
+    var dateDiff = "";
+    var dateColor = "";
+    var taskAction = "";
 
     var colors = ["red","orange","yellow","olive","green"];
 
-    if(this.state.complete){
-      dateDiff = colors.length - 1;
+
+    if(this.props.new){
+      taskAction = "Add Task";
+      dateColor = "";
     }else{
-      dateDiff = 5 - dateDiff >= 0 ? dateDiff : 0;
+
+      date = this.friendlyDate(this.props.date);
+      dueDate = this.friendlyDate(this.props.due);
+      dateDiff = this.daysTilDue(this.props.due);
+
+      if(this.state.complete){
+        dateDiff = colors.length - 1;
+      }else{
+        dateDiff = 5 - dateDiff >= 0 ? dateDiff : 0;
+      }
+
+      dateColor = colors[dateDiff];
+      taskAction = "Complete";
     }
 
-    var dateColor = colors[dateDiff];
     return (
-        <div className="card">
-        <div className={"ui top attached"}>
+        <div className="ui centered card">
+        <div className={"ui top attached top-label"}>
           <div className="ui left-label label">
             {date}
           </div>
@@ -76,9 +105,9 @@ class ToDoItem extends React.Component {
               <div className="center task-message">{this.props.description}</div>
             </div>
           </div>
-          <div className={"ui toggle checkbox bottom attached button "} onClick={this.toggleComplete}>
+          <div className={"ui toggle checkbox bottom attached button "} onClick={this.taskAction}>
             <input type="checkbox" tabIndex="0"  checked={this.state.complete} readOnly className="hidden" />
-            <label>Complete</label>
+            <label>{taskAction}</label>
           </div>
         </div>
       );

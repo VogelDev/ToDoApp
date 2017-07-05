@@ -17,31 +17,28 @@ class ToDoList extends React.Component {
 
   updateInputValue(evt, state) {
 
-    if(evt.target.value != this.state[state]){
+    if (evt.target.value != this.state[state]) {
       // different, handle it
 
-      if(this.props.new){
+      if (this.props.new) {
         //ajax call to create a category
-      }else{
+      } else {
         // this.state[state] = evt.target.value;
         var stateObject = function() {
-              var returnObj = {};
-              returnObj[state] = evt.target.value;
-                 return returnObj;
-            }.bind(event)();
+          var returnObj = {};
+          returnObj[state] = evt.target.value;
+          return returnObj;
+        };
 
-            this.setState( stateObject );
-        // this.setState({
-        //   name: evt.target.value
-        // });
+        this.setState(stateObject);
       }
-    }else{
+    } else {
       // same, do nothing
     }
   }
 
   onKeyPress(evt) {
-    if(evt.key === "Enter"){
+    if (evt.key === "Enter") {
       $("input").blur();
     }
   }
@@ -54,36 +51,21 @@ class ToDoList extends React.Component {
 
     var newTask = "";
 
-    if(!this.props.new){
-      newTask = <ToDoItem
-        description="New task"
-        new="true"
-      />;
+    if (!this.props.new) {
+      newTask = <ToDoItem description="New task" new="true"/>;
     }
 
     return (
       <section className="ui segment basic">
         <div className="ui top attached">
-          <input
-            className="ui header category"
-            onBlur={evt => this.updateInputValue(evt, "name")}
-            type="text"
-            defaultValue={this.props.name}
-            onKeyPress={evt => this.onKeyPress(evt)}
-            />
+          <input className="ui header category" onBlur={evt => this.updateInputValue(evt, "name")} type="text" defaultValue={this.props.name} onKeyPress={evt => this.onKeyPress(evt)}/>
         </div>
         <div className="ui segment secondary basic todo-list">
           <div className="ui three stackable cards">
-            {this.props.items.map(
-              item => {
-                return <ToDoItem
-                  description={item.TASK}
-                  key={Math.random()}
-                  complete={item.COMPLETED}
-                  date={item.CREATED}
-                  due={item.DUE} />;
+            {this.props.items.map(item => {
+              return <ToDoItem description={item.TASK} key={Math.random()} complete={item.COMPLETED} date={item.CREATED} due={item.DUE}/>;
             })}
-              {newTask}
+            {newTask}
           </div>
         </div>
       </section>

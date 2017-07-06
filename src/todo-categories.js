@@ -16,6 +16,7 @@ class ToDoCategories extends React.Component {
         {this.props.items.map(item => {
           return <ToDoList
             name={item.name}
+            id={item.category}
             key={Math.random()}
             items={item.tasks}/>
         })}

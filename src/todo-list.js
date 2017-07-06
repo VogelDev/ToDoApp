@@ -52,18 +52,30 @@ class ToDoList extends React.Component {
     var newTask = "";
 
     if (!this.props.new) {
-      newTask = <ToDoItem description="New task" new="true"/>;
+      newTask = <ToDoItem description="New task" new="true" category={this.props.id}/>;
     }
 
     return (
       <section className="ui segment basic">
         <div className="ui top attached">
-          <input className="ui header category" onBlur={evt => this.updateInputValue(evt, "name")} type="text" defaultValue={this.props.name} onKeyPress={evt => this.onKeyPress(evt)}/>
+          <input
+            className="ui header category user-input"
+            type="text"
+            defaultValue={this.props.name}
+            onBlur={evt => this.updateInputValue(evt, "name")}
+            onKeyPress={evt => this.onKeyPress(evt)}/>
         </div>
         <div className="ui segment secondary basic todo-list">
           <div className="ui three stackable cards">
             {this.props.items.map(item => {
-              return <ToDoItem description={item.TASK} key={Math.random()} complete={item.COMPLETED} date={item.CREATED} due={item.DUE}/>;
+              return <ToDoItem
+                        description={item.TASK}
+                        id={item.ID}
+                        key={Math.random()}
+                        complete={item.COMPLETED}
+                        date={item.CREATED}
+                        due={item.DUE}
+                        category={this.props.id}/>;
             })}
             {newTask}
           </div>
